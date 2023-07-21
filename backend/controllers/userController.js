@@ -63,9 +63,34 @@ const login =async (req, res) => {
 
   //Here Handling the Update profile
 
-const updateUser = (req, res) => {
+const updateUser =async (req, res) => {
   try {
-  } catch (error) {}
+        
+    const jwtToken = req.cookies.jwt.token;
+    const decode=jwt.verify(jwtToken,"secretCodeforUser")
+
+     if(!decode.id){
+         throw new Error("Invalid Token")
+     }
+     const userData = await user.findOne({_id:decode.id})
+   
+
+     if(!userData){
+         throw new Error("User not found")
+     }
+     if(req.file&&req.file.path){
+         userData.image=req.file.filename;
+         const url =req.file.path;
+         await userData.save()
+         console.log("success")
+         res.status(200).send({success:true,url,message:"success"})
+     }else{
+         throw new Error("No image is there")
+     }
+     
+ } catch (error) {
+     res.status(500).json({error:'Internal server error'});
+ }
 };
 
 module.exports = {

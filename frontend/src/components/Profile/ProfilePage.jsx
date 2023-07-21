@@ -15,11 +15,6 @@ function ProfilePage() {
                 src=""
               />
               
-
-            
-
-              {/* <span class="font-weight-bold">{userData ? userData.firstname : ""}</span>
-              <span class="text-black-50">{userData ? userData.email : ""}</span> */}
               <span> </span>
             </div>
 
